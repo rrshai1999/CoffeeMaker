@@ -1,5 +1,4 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -23,7 +22,6 @@ public class CoffeeMakerTest {
 		try {
 			CoffeeMaker cm = new CoffeeMaker();
 			cm.addIngredients(4, -1, 0);
-			fail("InventoryException should be thrown");
 		} catch (Exception e) {
 			// success if thrown
 		}

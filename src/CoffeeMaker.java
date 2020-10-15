@@ -48,8 +48,17 @@ public class CoffeeMaker {
 	 */
 	public String checkIngredients() {
 		// TODO: code this method
+		String coffeeAmt = Integer.toString(this.getCoffee());
+		String milkAmt = Integer.toString(this.getMilk());
+		String chocolateAmt = Integer.toString(this.getChocolate());
 		StringBuffer buf = new StringBuffer();
-		buf.append("Not yet implemented");
+		buf.append("Status of ingredients:");
+		buf.append("\n");
+		buf.append("Coffee units remaining: "+coffeeAmt);
+		buf.append("\n");
+		buf.append("Milk units remaining: "+milkAmt);
+		buf.append("\n");
+		buf.append("Chocolate units remaining: "+chocolateAmt);
 		buf.append("\n");
 		return buf.toString();
 	}
@@ -70,8 +79,17 @@ public class CoffeeMaker {
 	 * @return boolean
 	 */
 	public void addIngredients(int amtCoffee, int amtMilk, int amtChocolate) throws Exception {
+		if (amtMilk < 0 || amtCoffee < 0 || amtChocolate < 0) {
+			throw InventoryException();
+		}
+		this.milk = amtMilk;
+		this.chocolate = amtChocolate;
+		this.coffee = amtCoffee;
+	}
 
-		// TODO: code this method
+	private Exception InventoryException() {
+		System.out.print("Invalid number of units.");
+		return null;
 	}
 
 	/**
@@ -82,9 +100,25 @@ public class CoffeeMaker {
 	 * @return int
 	 */
 	public int makeEspresso(int amtPaid) {
-
-		// TODO: code this method
-		return -1;
+		if (this.coffee >= 1 && amtPaid >= 1) {
+			this.coffee--;
+			StringBuffer buf = new StringBuffer();
+			buf.append("Making Espresso...");
+			buf.append("\n");
+			return amtPaid-1;
+		}
+		else if (this.coffee >= 1 && amtPaid < 1) {
+			StringBuffer buf = new StringBuffer();
+			buf.append("Sorry, not enough paid. This drink costs £1.");
+			buf.append("\n");
+			return amtPaid;
+		}
+		else {
+			StringBuffer buf = new StringBuffer();
+			buf.append("Sorry, out of coffee. Returning change.");
+			buf.append("\n");
+			return amtPaid;
+		}
 	}
 
 	/**
@@ -95,8 +129,38 @@ public class CoffeeMaker {
 	 * @return int
 	 */
 	public int makeLatte(int amtPaid) {
-
-		// TODO: code this method
+		if (this.coffee >= 2 && this.milk >= 1) {
+			this.coffee -= 2;
+			this.milk -= 1;
+			StringBuffer buf = new StringBuffer();
+			buf.append("Making Latte...");
+			buf.append("\n");
+			return amtPaid-1;
+		}
+		else if (this.coffee >= 2 && this.milk < 1) {
+			StringBuffer buf = new StringBuffer();
+			buf.append("Sorry, out of milk. Returning change.");
+			buf.append("\n");
+			return amtPaid;
+		}
+		else if (this.coffee < 2 && this.milk >= 1) {
+			StringBuffer buf = new StringBuffer();
+			buf.append("Sorry, out of coffee. Returning change.");
+			buf.append("\n");
+			return amtPaid;
+		}
+		else if (this.coffee < 2 && this.milk < 1) {
+			StringBuffer buf = new StringBuffer();
+			buf.append("Sorry, out of coffee and out of milk. Returning change.");
+			buf.append("\n");
+			return amtPaid;
+		}
+		else if (amtPaid < 1) {
+			StringBuffer buf = new StringBuffer();
+			buf.append("Sorry, not enough paid. This drink costs £1.");
+			buf.append("\n");
+			return amtPaid;
+		}
 		return -1;
 	}    
 }
